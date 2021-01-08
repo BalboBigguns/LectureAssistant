@@ -1,0 +1,33 @@
+.Checkpoint {
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    margin: 0.5em;
+}
+
+.Checkpoint * {
+    padding: 0.5em;
+    margin: 0;
+}
+
+.Checkpoint .SuccessIcon {
+    color: #59ad50;
+}
+
+.Checkpoint .LoadingIcon {
+    color: #4c77d3;
+    animation: spin-animation 1s infinite;
+}
+
+.Checkpoint .FailureIcon {
+    color: #e04040;
+}
+
+@keyframes spin-animation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(359deg);
+    }
+}

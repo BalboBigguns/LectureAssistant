@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      target: dev
+    container_name: lecture-assistant_front_dev
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./frontend/app:/opt/web/app
+
+  backend:
+    build:
+      context: ./backend
+      target: dev
+    container_name: lecture-assistant_back_dev
+    ports:
+      - '5000:5000'
+    volumes:
+      - ./backend/app:/usr/src/app

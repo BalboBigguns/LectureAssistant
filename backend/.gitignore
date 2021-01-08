@@ -1,0 +1,6 @@
+web-env/
+
+*.pyc
+__pycache__/
+
+instance/
