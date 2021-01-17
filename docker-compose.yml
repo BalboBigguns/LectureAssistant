@@ -10,6 +10,8 @@ services:
       - '3000:3000'
     volumes:
       - ./frontend/app:/opt/web/app
+    environment:
+      - REACT_APP_API_URL=http://localhost:5000
 
   backend:
     build:
@@ -20,3 +22,15 @@ services:
       - '5000:5000'
     volumes:
       - ./backend/app:/usr/src/app
+    environment:
+      - REDIS_URL=redis://redis_db:6379
+      - STT_URL=ws://stt:2700
+    depends_on:
+      - redis_db
+      - stt
+    
+  redis_db:
+    image: redis:6.2-rc-buster
+
+  stt:
+    image: alphacep/kaldi-en:latest

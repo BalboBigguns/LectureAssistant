@@ -1,13 +1,15 @@
 import functools
-import numpy as np
-import pysptk
-import sys
-from scipy.io import wavfile
-
-
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, make_response
 )
+from . import f0
+from . import speechToText
+from . import speechRate
+from . import volume
+import sys
+import logging
+from scipy.io import wavfile
+
 
 bp = Blueprint('upload', __name__, url_prefix='/upload')
 
@@ -35,21 +37,28 @@ def upload_file():
         print('Inapropriate file format')
         return {'error': 'Inapropriate file format'}, 400
 
-    fs, data = wavfile.read(file)
-
-    if len(data.shape) != 1:
-        return {'error': 'Incorrect number of channels'}, 400
-
-    if fs != 16000:
-        return {'error': 'Incorrect framerate'}, 400
-
     try:
-        f0 = pysptk.rapt(data.astype(np.float32), fs=fs, hopsize=80, min=60, max=240, otype="f0")
+        fs, data = wavfile.read(file)
+        if len(data.shape) != 1:
+            return {'error': 'Incorrect number of channels'}, 400
+
+        if fs != 8000:
+            return {'error': 'Incorrect framerate'}, 400
+
+        transcription = speechToText.get_transcription(data, fs)
+        rate_data = speechRate.process_transcription(transcription)
+        f0_data = f0.process_file(data, fs, 200)
+        volume_data = volume.process_file(data, fs, 200)
     except:
-        print('Exception rised: ')
-        print(sys.exc_info())
-        return {'error': 'Exception occured', 'exception': sys.exc_info()}, 500
+        logging.exception('Exception rised: ')
 
-    time = np.linspace(0., data.shape[0] / fs, np.ceil(data.shape[0] / 80).astype(np.int32)) 
+        return {'error': 'Exception occured', 'exception': str(sys.exc_info()[1])}, 500
+    
 
-    return {'f0': f0.tolist(), 'time': time.tolist(), 'std': float(np.std(f0))}, 200
+    response = {}
+    response.update({'f0': f0_data})
+    response.update({'volume': volume_data})
+    response.update({'rate': rate_data})
+    response.update({'transcription': transcription})
+
+    return response, 200

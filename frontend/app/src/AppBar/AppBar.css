@@ -1,0 +1,20 @@
+.AppBar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    color: var(--color-theme-main);
+    box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.10);
+}
+
+.Title {
+    padding-left: 10%;
+    font-size: 2em;
+    font-weight: 300;
+}
+
+@media (min-width: 680px) {
+    .Title {
+        font-size: 3em;
+    }
+}

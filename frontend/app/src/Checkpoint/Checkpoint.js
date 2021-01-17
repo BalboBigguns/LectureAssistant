@@ -1,13 +1,16 @@
 import React from 'react';
 import './Checkpoint.css';
-import {GoCheck, GoSync, GoX} from "react-icons/go";
+import {GoCheck, GoSync, GoX} from 'react-icons/go';
+import ProgressBar from '../ProgressBar/ProgressBar';
 
-const Checkpoint = ({state, message}) => {
+const Checkpoint = ({state, message, completed = 0}) => {
     const getIcon = (state) => {
         switch(state){
-            case 'loading':
+            case 'preprocessing':
+            case 'processing':
                 return <GoSync className='LoadingIcon'/>;
-            case 'success':
+            case 'processingSuccess':
+            case 'preprocessingSuccess':
                 return <GoCheck className='SuccessIcon'/>;
             case 'failure':
                 return <GoX className='FailureIcon'/>;
@@ -18,8 +21,13 @@ const Checkpoint = ({state, message}) => {
 
     return (
         <div className='Checkpoint'>
-            {getIcon(state)}
-            <p>{message}</p>
+            <div className='CheckpointMessage'>
+                {getIcon(state)}
+                <p>{message}</p>
+            </div>
+            { state === 'processing' && 
+                <ProgressBar completed={completed}/>
+            }
         </div>
     )
 }

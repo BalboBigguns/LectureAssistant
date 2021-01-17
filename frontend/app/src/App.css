@@ -1,8 +1,28 @@
 .App {
   margin: auto;
-  margin-top: 200px;
+  margin-top: 150px;
   width: 80%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
+
+  --color-theme-main: #4BC0C0;
+}
+
+hr {
+  border: 1px solid #4BC0C050;
+  width: 100%;
+}
+
+.Section {
+  margin: 48px 0px;
+}
+
+.FileInput {
+  margin: 48px 0px;
+}
+
+.Chart {
+  height: 400px;
+  margin: 48px 0px;
 }

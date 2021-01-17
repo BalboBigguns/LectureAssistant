@@ -5,13 +5,11 @@ RUN npm install
 ENV PATH="./node_modules/.bin:$PATH"
 
 FROM base AS dev
-ENV REACT_APP_API_URL="http://localhost:5000"
 WORKDIR /opt/web/app
 CMD ["npm", "start"]
 
 
 FROM base AS builder
-ENV REACT_APP_API_URL="http://3.64.54.8:5000"
 COPY /app ./
 RUN npm run build
 

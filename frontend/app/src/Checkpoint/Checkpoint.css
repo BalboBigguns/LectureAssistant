@@ -1,11 +1,17 @@
 .Checkpoint {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.CheckpointMessage {
+    display: flex;
     align-items: center;
     font-size: 1.2rem;
     margin: 0.5em;
 }
 
-.Checkpoint * {
+.Checkpoint > .CheckpointMessage {
     padding: 0.5em;
     margin: 0;
 }

@@ -5,12 +5,28 @@ services:
     build:
       context: ./frontend
       target: prod
+    container_name: lecture-assistant_front_prod
     ports:
       - '80:80'
+    environment:
+      - ENV REACT_APP_API_URL=http://3.64.54.8:5000
 
   backend:
     build:
       context: ./backend
       target: prod
+    container_name: lecture-assistant_back_prod
     ports:
       - '5000:5000'
+    environment:
+      - REDIS_URL=redis://redis_db:6379
+      - STT_URL=ws://stt:2700
+    depends_on:
+      - redis_db
+      - stt
+    
+  redis_db:
+    image: redis:6.2-rc-buster
+
+  stt:
+    image: alphacep/kaldi-en:latest
