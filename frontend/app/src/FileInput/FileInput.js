@@ -39,7 +39,7 @@ const FileInput = ({onData, useProcessing}) => {
 
         try {
             ffmpeg.FS('writeFile', rawFile.name, await fetchFile(rawFile));
-            await ffmpeg.run('-i', rawFile.name, '-ar', '8000', '-ac', '1', 'audio.wav');
+            await ffmpeg.run('-i', rawFile.name, '-ar', '16000', '-ac', '1', 'audio.wav');
 
             const data = ffmpeg.FS('readFile', 'audio.wav');
             const processedFile = new File([data], `${rawFile.name}.wav`, {type: 'audio/wav'});

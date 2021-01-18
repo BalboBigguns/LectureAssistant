@@ -42,7 +42,7 @@ def upload_file():
         if len(data.shape) != 1:
             return {'error': 'Incorrect number of channels'}, 400
 
-        if fs != 8000:
+        if fs != 16000:
             return {'error': 'Incorrect framerate'}, 400
 
         transcription = speechToText.get_transcription(data, fs)
