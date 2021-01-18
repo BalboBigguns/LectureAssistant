@@ -77,7 +77,6 @@ const FileInput = ({onData, useProcessing}) => {
             state: 'processing',
             message: 'Uploading and analysing file, this may take a few minutes...'
         }])
-        
         let newState = processingState.filter(s => s.state !== 'processing');
         axios.post(
             `${process.env.REACT_APP_API_URL}/upload`, 

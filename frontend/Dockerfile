@@ -11,6 +11,7 @@ CMD ["npm", "start"]
 
 FROM base AS builder
 COPY /app ./
+ENV REACT_APP_API_URL "http://35.156.46.170:5000"
 RUN npm run build
 
 FROM nginx:1.17-alpine AS prod

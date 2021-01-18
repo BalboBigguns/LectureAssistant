@@ -8,8 +8,6 @@ services:
     container_name: lecture-assistant_front_prod
     ports:
       - '80:80'
-    environment:
-      - REACT_APP_API_URL=http://3.64.54.8:5000
 
   backend:
     build:
