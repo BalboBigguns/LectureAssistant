@@ -10,4 +10,5 @@ RUN mkdir /opt/vosk-model-en \
 
 EXPOSE 2700
 WORKDIR /opt/vosk-server/websocket
+ENV VOSK_SAMPLE_RATE 16000
 CMD [ "python3", "./asr_server.py", "/opt/vosk-model-en/model" ]
