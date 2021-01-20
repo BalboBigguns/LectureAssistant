@@ -6,13 +6,11 @@ import asyncio
 from flask_sse import sse
 import math
 
-transcription = []
 
 def process_chunk(raw_data, length):
     data = eval(raw_data)
     results = data.get('result')
     if results:
-        transcription.extend(results)
         last = results[-1]
         time = last['end']
         sse.publish({
@@ -22,9 +20,11 @@ def process_chunk(raw_data, length):
             type='processing'
         )
         print(f'Processed {time} seconds')
-
+        return results
+    return []
 
 async def transcribe(data, fs):
+    transcription = []
     length = math.ceil(len(data) / fs);
     CHUNK_SIZE = 4000
 
@@ -33,15 +33,17 @@ async def transcribe(data, fs):
         for chunk_idx in range(0, len(data), CHUNK_SIZE):
             chunk = data[chunk_idx:chunk_idx+CHUNK_SIZE]
             await websocket.send(chunk.tobytes())
-            process_chunk(await websocket.recv(), length)
+            transcription.extend(process_chunk(await websocket.recv(), length))
 
         await websocket.send('{"eof" : 1}')
-        process_chunk(await websocket.recv(), length)
+        transcription.extend(process_chunk(await websocket.recv(), length))
         print("Finished")
+
+    return transcription
 
 
 def get_transcription(data, fs):
-    asyncio.run(
+    transcription = asyncio.run(
         transcribe(data, fs),
     )
 

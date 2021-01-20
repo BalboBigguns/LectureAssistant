@@ -33,4 +33,5 @@ services:
     image: redis:6.2-rc-buster
 
   stt:
-    image: alphacep/kaldi-en:latest
+    build:
+      context: ./backend/stt

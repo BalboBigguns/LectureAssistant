@@ -11,10 +11,10 @@ def calc_rolling_speech_rate(results, time, averaging_time_window=AVERAGING_WIND
     [0] -> number of words in the 1st second.
     """
     words_each_second = [0] * (time + 1)
-    print(len(words_each_second))
     for word in results:
-        print(f'Word start: {math.floor(word["start"])}')
+        # print(f'Word start: {math.floor(word["start"])}')
         if math.floor(word["start"]) == 62:
+            print("Sth's wrong")
             print(math.floor(word["start"])) 
             print(results)
         words_each_second[math.floor(word["start"])] += 1
@@ -29,7 +29,7 @@ def calc_rolling_speech_rate(results, time, averaging_time_window=AVERAGING_WIND
 
 def process_transcription(words):
     audio_length = math.ceil(words[-1]['end'])
-    print(audio_length)
+    print(f'Audio length: {audio_length}s')
     words_per_second, average_words_per_second = calc_rolling_speech_rate(words, audio_length)
     average_words_per_minute = list(map(lambda w: w * 60, average_words_per_second))
     word_count = len(words)
