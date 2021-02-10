@@ -13,40 +13,44 @@ def process_chunk(raw_data, length):
     if results:
         last = results[-1]
         time = last['end']
+        fraction = round((math.ceil(time) / length), 4) 
+
         sse.publish({
             "seconds": time,
-            "fraction": round((math.ceil(time) / length), 4) 
+            "fraction": fraction
             },
             type='processing'
         )
-        print(f'Processed {time} seconds')
         return results
     return []
 
-async def transcribe(data, fs):
+async def transcribe(data, fs, log):
+    checkpoint = 0
     transcription = []
     length = math.ceil(len(data) / fs);
     CHUNK_SIZE = 4000
 
-    print("Processing audio...")
+    log("Processing audio...")
     async with websockets.connect(os.environ.get('STT_URL')) as websocket:
         for chunk_idx in range(0, len(data), CHUNK_SIZE):
             chunk = data[chunk_idx:chunk_idx+CHUNK_SIZE]
             await websocket.send(chunk.tobytes())
             transcription.extend(process_chunk(await websocket.recv(), length))
+            progress = chunk_idx / len(data)
+            if progress >= checkpoint:
+                checkpoint += 0.2
+                log(f"Processed {round(progress * 100)}%")
 
         await websocket.send('{"eof" : 1}')
         transcription.extend(process_chunk(await websocket.recv(), length))
-        print("Finished")
+        log("Finished")
 
     return transcription
 
 
-def get_transcription(data, fs):
+def get_transcription(data, fs, log):
     transcription = asyncio.run(
-        transcribe(data, fs),
+        transcribe(data, fs, log),
     )
-
-    print('Transcription is ready')
 
     return transcription

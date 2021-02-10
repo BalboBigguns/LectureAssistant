@@ -9,7 +9,7 @@ from . import volume
 import sys
 import logging
 from scipy.io import wavfile
-
+import numpy as np
 
 bp = Blueprint('upload', __name__, url_prefix='/upload')
 
@@ -45,10 +45,16 @@ def upload_file():
         if fs != 16000:
             return {'error': 'Incorrect framerate'}, 400
 
-        transcription = speechToText.get_transcription(data, fs)
-        rate_data = speechRate.process_transcription(transcription)
-        f0_data = f0.process_file(data, fs, 200)
-        volume_data = volume.process_file(data, fs, 200)
+        log = lambda msg: print(f"{file.filename}: {msg}")
+
+        if data.dtype is not np.dtype('int16'):
+            log(f"ERROR: Incorrect bit width - {data.dtype}")
+            return {'error': 'Incorrect bit width'}, 400
+
+        transcription = speechToText.get_transcription(data, fs, log)
+        rate_data = speechRate.process_transcription(transcription, log)
+        f0_data = f0.process_file(data, fs, 200, log)
+        volume_data = volume.process_file(data, fs, 10000, log)
     except:
         logging.exception('Exception rised: ')
 

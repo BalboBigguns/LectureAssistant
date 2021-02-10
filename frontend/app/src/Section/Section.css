@@ -1,0 +1,12 @@
+.Section {
+    margin: 84px 0px;
+}
+
+.Section p {
+    margin: 2em 0px;
+}
+
+.Section .Chart {
+    height: 400px;
+    margin: 64px 0px;
+}

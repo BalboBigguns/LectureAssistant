@@ -1,4 +1,5 @@
 import math
+import numpy as np
 
 AVERAGING_WINDOW = 10
 
@@ -13,10 +14,10 @@ def calc_rolling_speech_rate(results, time, averaging_time_window=AVERAGING_WIND
     words_each_second = [0] * (time + 1)
     for word in results:
         # print(f'Word start: {math.floor(word["start"])}')
-        if math.floor(word["start"]) == 62:
-            print("Sth's wrong")
-            print(math.floor(word["start"])) 
-            print(results)
+        # if math.floor(word["start"]) == 62:
+        #     print("Sth's wrong")
+        #     print(math.floor(word["start"])) 
+        #     print(results)
         words_each_second[math.floor(word["start"])] += 1
     
     averages = []
@@ -27,13 +28,14 @@ def calc_rolling_speech_rate(results, time, averaging_time_window=AVERAGING_WIND
     
     return words_each_second, averages
 
-def process_transcription(words):
+def process_transcription(words, log):
     audio_length = math.ceil(words[-1]['end'])
-    print(f'Audio length: {audio_length}s')
+    log(f'Audio length: {audio_length}s')
     words_per_second, average_words_per_second = calc_rolling_speech_rate(words, audio_length)
     average_words_per_minute = list(map(lambda w: w * 60, average_words_per_second))
     word_count = len(words)
-    total_wpm_avarage = word_count / audio_length * 60
+    total_wpm_average = word_count / audio_length * 60
+    total_wpm_std = np.std(average_words_per_minute)
 
     return {
         'words_each_second': {
@@ -45,5 +47,6 @@ def process_transcription(words):
             'frame_length': 1000
         },
         'words_count': word_count,
-        'total_wpm_avarage': total_wpm_avarage
+        'total_wpm_average': total_wpm_average,
+        'total_wpm_std': total_wpm_std
     }

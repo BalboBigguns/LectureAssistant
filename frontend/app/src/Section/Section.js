@@ -1,10 +1,11 @@
 import React from 'react';
+import './Section.css';
 
 const Section = ({children, title, text}) => {
     return (
         <section className='Section'>
-            <h3>{title}</h3>
-            <p>{children}</p>
+            <h1>{title}</h1>
+            {children}
         </section>
     );
 }

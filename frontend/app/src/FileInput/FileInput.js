@@ -8,7 +8,27 @@ const ffmpeg = createFFmpeg({
     log: true
 });
 
-const FileInput = ({onData, useProcessing}) => {
+const downloadFile = (name, contents, mime_type) => {
+    mime_type = mime_type || "text/plain";
+
+    const blob = new Blob([contents], {type: mime_type});
+
+    const dlink = document.createElement('a');
+    dlink.download = name;
+    dlink.href = window.URL.createObjectURL(blob);
+    dlink.onclick = function(e) {
+        // revokeObjectURL needs a delay to work properly
+        const that = this;
+        setTimeout(function() {
+            window.URL.revokeObjectURL(that.href);
+        }, 1500);
+    };
+
+    dlink.click();
+    dlink.remove();
+}
+
+const FileInput = ({data, onData, useProcessing}) => {
     const [ready, setReady] = useState(false);
     const [file, setFile] = useState(null);
     const [processingState, setProcessingState] = useProcessing;
@@ -145,6 +165,12 @@ const FileInput = ({onData, useProcessing}) => {
                     type='submit'
                     value='Upload'
                     disabled={file===null || processingState.find(s => s.state === 'processing' || s.state === 'preprocessing' || s.state === 'processingSuccess')}
+                />
+                <input
+                    type='button'
+                    value='Download'
+                    disabled={!processingState.find(s => s.state === 'processingSuccess')}
+                    onClick={() => downloadFile(`${file.name}.json`, JSON.stringify(data, null, 2))}
                 />
             </form>
         </div>
