@@ -32,7 +32,7 @@ const errorHandler = (event) => {
 };
 
 
-const UploadSection = ({useData}) => {
+const UploadSection = ({useData, showResults}) => {
     const [data, setData] = useData();
     const [file, setFile] = useState(null);
     const [processingState, setProcessingState] = useState([]);
@@ -91,6 +91,7 @@ const UploadSection = ({useData}) => {
         )
         .then(res => {
             setData(res.data);
+            showResults();
             console.log(res.data);
             newState.push({
                 state: 'processingSuccess',

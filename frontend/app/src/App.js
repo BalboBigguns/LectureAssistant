@@ -1,5 +1,5 @@
 import './App.css';
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import UploadSection from './UploadSection/UploadSection';
 import StepAreaChart from './StepAreaChart/StepAreaChartChart';
 import AppBar from './AppBar/AppBar';
@@ -13,7 +13,14 @@ const isMobile = () => /Mobi/.test(navigator.userAgent);
 
 const App = () => {
     const [data, setData] = useState(null);
+    const resultsRef = useRef(null);
     
+    const scrollToResults = () => {
+        const yOffset = -50; 
+        const y = resultsRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({top: y, behavior: 'smooth'});
+    };
+
     return (
         <div className='App'>
             <AppBar title='Lecture Assistant'/>
@@ -27,10 +34,10 @@ const App = () => {
                 </p>
             ) : (
                 <>
-                <UploadSection useData={() => [data, setData]}/>
+                <UploadSection useData={() => [data, setData]} showResults={scrollToResults}/>
                 { data && 
                     <>
-                    <Section title='Pitch'>
+                    <Section title='Pitch' ref={resultsRef}>
                         <p>
                             <b>Definition</b> - The relative highness or lowness of a tone as perceived by the ear, 
                             which depends on the number of vibrations per second produced by the vocal cords.
