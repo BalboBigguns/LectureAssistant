@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Checkpoint from '../Checkpoint/Checkpoint';
 import FileInput from '../FileInput/FileInput';
+import AudioPlayer from '../AudioPlayer/AudioPlayer';
 import './UploadSection.css';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
@@ -114,11 +115,7 @@ const UploadSection = ({useData, showResults}) => {
             { file && (
                 <>
                 <p>Preview of the file:</p>
-                <audio
-                    controls
-                    width="250"
-                    src={URL.createObjectURL(file)}>
-                </audio>
+                <AudioPlayer file={file}/>
                 </>
             )}
             {
