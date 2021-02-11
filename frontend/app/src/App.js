@@ -1,6 +1,6 @@
 import './App.css';
-import React, {useState, useEffect} from 'react';
-import FileInput from './FileInput/FileInput';
+import React, {useState} from 'react';
+import UploadSection from './UploadSection/UploadSection';
 import StepAreaChart from './StepAreaChart/StepAreaChartChart';
 import AppBar from './AppBar/AppBar';
 import Section from './Section/Section';
@@ -10,43 +10,10 @@ import ColumnChart from './ColumnChart/ColumnChart';
 import LineChart from './LineChart/LineChart';
 
 const isMobile = () => /Mobi/.test(navigator.userAgent);
-const serverEventSource = new EventSource(`${process.env.REACT_APP_API_URL}/stream`);
 
 const App = () => {
     const [data, setData] = useState(null);
-    const [processingState, setProcessingState] = useState([]);
     
-    
-    const processingHandler = (event) => {
-        const data = JSON.parse(event.data);
-        const percent = Math.round((data.fraction + Number.EPSILON) * 100);
-        console.log(`${(new Date()).toISOString()}# Processed: ${percent}%`);
-    
-        setProcessingState(state => (
-            state.map(s => {
-                if(s.state === 'processing') {
-                    s.completed = percent;
-                }
-    
-                return s;
-            })
-        ));
-    };
-
-    const errorHandler = (event) => {
-        console.log("Failed to connect to event stream. Is Redis running?");
-    };
-
-    useEffect(() => {
-        serverEventSource.addEventListener('processing', processingHandler, false);
-        serverEventSource.addEventListener('error', errorHandler, false);
-        return () => {
-            serverEventSource.removeEventListener('processing', processingHandler);
-            serverEventSource.removeEventListener('error', errorHandler);
-        }
-    }, [])
-    
-
     return (
         <div className='App'>
             <AppBar title='Lecture Assistant'/>
@@ -60,7 +27,7 @@ const App = () => {
                 </p>
             ) : (
                 <>
-                <FileInput data={data} onData={setData} useProcessing={[processingState, setProcessingState]}/>
+                <UploadSection useData={() => [data, setData]}/>
                 { data && 
                     <>
                     <Section title='Pitch'>

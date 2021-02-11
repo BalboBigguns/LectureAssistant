@@ -1,38 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
-import Checkpoint from '../Checkpoint/Checkpoint';
 import './FileInput.css';
-import axios from 'axios';
 
 const ffmpeg = createFFmpeg({ 
     log: true
 });
 
-const downloadFile = (name, contents, mime_type) => {
-    mime_type = mime_type || "text/plain";
+const getFileName = (file) => {
+    if (file === null) return null;
+    let tokens = file.name.split('.');
+    tokens.pop();
+    return tokens.join('.');
+};
 
-    const blob = new Blob([contents], {type: mime_type});
-
-    const dlink = document.createElement('a');
-    dlink.download = name;
-    dlink.href = window.URL.createObjectURL(blob);
-    dlink.onclick = function(e) {
-        // revokeObjectURL needs a delay to work properly
-        const that = this;
-        setTimeout(function() {
-            window.URL.revokeObjectURL(that.href);
-        }, 1500);
-    };
-
-    dlink.click();
-    dlink.remove();
-}
-
-const FileInput = ({data, onData, useProcessing}) => {
+const FileInput = ({setData, useFile, useProcessingState}) => {
+    const [file, setFile] = useFile();
+    const [processingState, setProcessingState] = useProcessingState();
     const [ready, setReady] = useState(false);
-    const [file, setFile] = useState(null);
-    const [processingState, setProcessingState] = useProcessing;
-
 
     const load = async () => {
         if (!ffmpeg.isLoaded()) {
@@ -44,12 +28,13 @@ const FileInput = ({data, onData, useProcessing}) => {
     useEffect(() => {
         load();
     }, []);
+    
 
     const triggerProcessing = async (rawFile) => {
         if (!rawFile){
             setProcessingState([]);
             setFile(null);
-            onData(null);
+            setData(null);
             return;
         }
         setProcessingState([{
@@ -75,7 +60,7 @@ const FileInput = ({data, onData, useProcessing}) => {
         } catch (e) {
             console.log(e);
             setFile(null);
-            onData(null);
+            setData(null);
             let newState = processingState.filter(s => s.state !== 'preprocessing')
             newState.push({
                 state: 'failure',
@@ -85,98 +70,18 @@ const FileInput = ({data, onData, useProcessing}) => {
         }
     };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-
-        console.log(file);
-
-        const formData = new FormData();
-        formData.append('file', file);
-        
-        setProcessingState([...processingState, {
-            state: 'processing',
-            message: 'Uploading and analysing file, this may take a few minutes...'
-        }])
-        let newState = processingState.filter(s => s.state !== 'processing');
-        axios.post(
-            `${process.env.REACT_APP_API_URL}/upload`, 
-            formData
-        )
-        // .then(response => response.json())
-        .then(res => {
-            onData(res.data);
-            console.log(res.data);
-            newState.push({
-                state: 'processingSuccess',
-                message: 'Analysis is completed, you should see results in a moment!'
-            });
-            setProcessingState(newState);
-        })
-        .catch(error => {
-            console.error(error.message)
-            newState.push({
-                state: 'failure',
-                message: 'Error occured during analysis, try again later'
-            });
-            setProcessingState(newState);
-        });
-    };
-
-    const getFileName = () => {
-        if (file === null) return null;
-        let tokens = file.name.split('.');
-        tokens.pop();
-        return tokens.join('.');
-    };
-
-
-    return ready ? (
-        <div className='FileInput'>
-            { file && (
-                <>
-                <p>Preview of the file:</p>
-                <audio
-                    controls
-                    width="250"
-                    src={URL.createObjectURL(file)}>
-                </audio>
-                </>
-            )}
-            {
-                processingState.map(s => (
-                    <Checkpoint 
-                        state={s.state} 
-                        message={s.message}
-                        key={s.message}
-                        completed={s.completed}
-                    />
-                ))
-            }
-            <form onSubmit={handleSubmit}>
-                <input 
-                    type='file' 
-                    id='fileInput' 
-                    onChange={(e)=>triggerProcessing(e.target.files?.item(0))}
-                />
-                <label htmlFor='fileInput'>
-                    {file ? getFileName() : 'Choose file'}
-                </label>
-                <input 
-                    type='submit'
-                    value='Upload'
-                    disabled={file===null || processingState.find(s => s.state === 'processing' || s.state === 'preprocessing' || s.state === 'processingSuccess')}
-                />
-                <input
-                    type='button'
-                    value='Download'
-                    disabled={!processingState.find(s => s.state === 'processingSuccess')}
-                    onClick={() => downloadFile(`${file.name}.json`, JSON.stringify(data, null, 2))}
-                />
-            </form>
-        </div>
-    ) : 
-    (
-        <p>Loading ...</p>
+    
+    return (
+        <>
+        <input 
+            type='file' 
+            id='fileInput' 
+            onChange={(e)=>triggerProcessing(e.target.files?.item(0))}
+        />
+        <label htmlFor='fileInput'>
+            {!ready ? 'Loading...' : (file ? getFileName(file) : 'Choose file')}
+        </label>
+        </>
     )
 }
 
