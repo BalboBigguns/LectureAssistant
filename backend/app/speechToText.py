@@ -7,7 +7,7 @@ from flask_sse import sse
 import math
 
 
-def process_chunk(raw_data, length):
+def process_chunk(raw_data, length, session_id):
     data = eval(raw_data)
     results = data.get('result')
     if results:
@@ -15,16 +15,17 @@ def process_chunk(raw_data, length):
         time = last['end']
         fraction = round((math.ceil(time) / length), 4) 
 
-        sse.publish({
-            "seconds": time,
-            "fraction": fraction
-            },
-            type='processing'
-        )
+        if session_id:
+            sse.publish({
+                "seconds": time,
+                "fraction": fraction
+                },
+                type=session_id
+            )
         return results
     return []
 
-async def transcribe(data, fs, log):
+async def transcribe(data, fs, session_id, log):
     checkpoint = 0
     transcription = []
     length = math.ceil(len(data) / fs);
@@ -35,22 +36,22 @@ async def transcribe(data, fs, log):
         for chunk_idx in range(0, len(data), CHUNK_SIZE):
             chunk = data[chunk_idx:chunk_idx+CHUNK_SIZE]
             await websocket.send(chunk.tobytes())
-            transcription.extend(process_chunk(await websocket.recv(), length))
+            transcription.extend(process_chunk(await websocket.recv(), length, session_id))
             progress = chunk_idx / len(data)
             if progress >= checkpoint:
                 checkpoint += 0.2
                 log(f"Processed {round(progress * 100)}%")
 
         await websocket.send('{"eof" : 1}')
-        transcription.extend(process_chunk(await websocket.recv(), length))
+        transcription.extend(process_chunk(await websocket.recv(), length, session_id))
         log("Finished")
 
     return transcription
 
 
-def get_transcription(data, fs, log):
+def get_transcription(data, fs, session_id, log):
     transcription = asyncio.run(
-        transcribe(data, fs, log),
+        transcribe(data, fs, session_id, log),
     )
 
     return transcription

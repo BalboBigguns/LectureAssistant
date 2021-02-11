@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from flask_cors import CORS
 from flask_sse import sse
+from flask_caching import Cache
 
 
 def create_app(test_config=None):
@@ -10,6 +11,13 @@ def create_app(test_config=None):
     app.config["REDIS_URL"] = os.environ.get('REDIS_URL')
     app.register_blueprint(sse, url_prefix='/stream')
     CORS(app)
+    app.cache = Cache(app, config={
+        'CACHE_TYPE': 'redis',
+        'CACHE_KEY_PREFIX': 'LA_server',
+        'CACHE_REDIS_URL': os.environ.get('REDIS_URL'),
+        'CACHE_DEFAULT_TIMEOUT': 3600
+    })
+
     # app.config.from_mapping(
     #     SECRET_KEY='dev',
     #     DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),

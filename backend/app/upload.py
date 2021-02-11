@@ -1,6 +1,6 @@
 import functools
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for, make_response
+    Blueprint, flash, g, redirect, render_template, request, session, url_for, make_response, current_app
 )
 from . import f0
 from . import speechToText
@@ -10,6 +10,8 @@ import sys
 import logging
 from scipy.io import wavfile
 import numpy as np
+from flask_caching import Cache
+import json
 
 bp = Blueprint('upload', __name__, url_prefix='/upload')
 
@@ -20,9 +22,34 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+@bp.route('/subscribe', methods=['POST', 'DELETE'])
+def subscribe():
+    session_origin = request.remote_addr
+    parsed_body = json.loads(request.data.decode())
+    session_id = parsed_body.get('id')
+    print(session_id)
+    print(session_origin)
+
+    if request.method == 'POST':
+        if current_app.cache.add(session_id, session_origin):
+            return {'message': 'Subscribed.'}, 201
+        else:
+            return {'error': 'Subscription failed'}, 400
+    else:
+        current_app.cache.delete(session_id)
+        return '', 203
+
 @bp.route('', methods=['POST'])
 def upload_file():
     print(request.files)
+    session_id = request.headers['Authorization']
+    session_origin = current_app.cache.get(session_id)
+
+    if session_origin != request.remote_addr:
+        print("Session origin is incorrect")
+        print(f"Session origin: {session_origin}, actual origin: {request.remote_addr}")
+        session_id = None
+
     if 'file' not in request.files:
         print('File part is missing')
         return {'error': 'File part is missing'}, 400
@@ -51,7 +78,7 @@ def upload_file():
             log(f"ERROR: Incorrect bit width - {data.dtype}")
             return {'error': 'Incorrect bit width'}, 400
 
-        transcription = speechToText.get_transcription(data, fs, log)
+        transcription = speechToText.get_transcription(data, fs, session_id, log)
         rate_data = speechRate.process_transcription(transcription, log)
         f0_data = f0.process_file(data, fs, 200, log)
         volume_data = volume.process_file(data, fs, 10000, log)

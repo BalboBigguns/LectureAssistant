@@ -3,6 +3,7 @@ import Checkpoint from '../Checkpoint/Checkpoint';
 import FileInput from '../FileInput/FileInput';
 import './UploadSection.css';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 
 const serverEventSource = new EventSource(`${process.env.REACT_APP_API_URL}/stream`);
 
@@ -35,6 +36,7 @@ const UploadSection = ({useData}) => {
     const [data, setData] = useData();
     const [file, setFile] = useState(null);
     const [processingState, setProcessingState] = useState([]);
+    const [sessionId, setSessionId] = useState();
     
     
     const processingHandler = (event) => {
@@ -53,10 +55,14 @@ const UploadSection = ({useData}) => {
     };
 
     useEffect(() => {
-        serverEventSource.addEventListener('processing', processingHandler, false);
+        const session = uuidv4()
+        setSessionId(session);        
+        axios.post(`${process.env.REACT_APP_API_URL}/upload/subscribe`, {id: session});
+        serverEventSource.addEventListener(session, processingHandler, false);
         serverEventSource.addEventListener('error', errorHandler, false);
         return () => {
-            serverEventSource.removeEventListener('processing', processingHandler);
+            axios.delete(`${process.env.REACT_APP_API_URL}/upload/subscribe`, {id: session});
+            serverEventSource.removeEventListener(session, processingHandler);
             serverEventSource.removeEventListener('error', errorHandler);
         }
     }, []);
@@ -76,7 +82,12 @@ const UploadSection = ({useData}) => {
         let newState = processingState.filter(s => s.state !== 'processing');
         axios.post(
             `${process.env.REACT_APP_API_URL}/upload`, 
-            formData
+            formData,
+            {
+                headers: {
+                    'Authorization': sessionId
+                }
+            }
         )
         .then(res => {
             setData(res.data);
