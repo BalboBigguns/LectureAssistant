@@ -81,7 +81,7 @@ def upload_file():
         transcription = speechToText.get_transcription(data, fs, session_id, log)
         rate_data = speechRate.process_transcription(transcription, log)
         f0_data = f0.process_file(data, fs, 200, log)
-        volume_data = volume.process_file(data, fs, 10000, log)
+        volume_data = volume.process_file(data, fs, log)
     except:
         logging.exception('Exception rised: ')
 
