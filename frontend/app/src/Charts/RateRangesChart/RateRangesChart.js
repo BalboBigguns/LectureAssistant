@@ -13,7 +13,8 @@ const RateRangesChart = ({rate}) => {
 	    animationEnabled: true,
         theme: "light2",
         title: {
-            text: "Speech Rate Ranges"
+            text: "Speech Rate Ranges",
+            fontSize: theme.chartTitleFontSize,
         },
         data: [{
             type: "rangeBar",

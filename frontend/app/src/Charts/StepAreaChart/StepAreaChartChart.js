@@ -33,7 +33,8 @@ const StepAreaChart = ({data, title, xLabel, yLabel}) => {
 	    animationEnabled: true,
         theme: "light2",
         title: {
-            text: title
+            text: title,
+            fontSize: theme.chartTitleFontSize
         },
         data: [{				
             type: "stepArea",

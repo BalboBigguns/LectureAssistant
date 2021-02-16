@@ -22,6 +22,7 @@ const theme = {
             secondary: '#6b995c'
         }
     },
+    chartTitleFontSize: 27
 };
 
 const ThemeContext = React.createContext(theme);

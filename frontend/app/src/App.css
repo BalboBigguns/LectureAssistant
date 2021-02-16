@@ -22,6 +22,10 @@ hr {
   margin: 48px 0px;
 }
 
+p {
+  font-size: 1.2em
+}
+
 /* .SideBySideWrapper {
   display: flex;
   align-items: center;

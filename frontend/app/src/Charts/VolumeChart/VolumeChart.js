@@ -24,7 +24,8 @@ const VolumeChart = ({volume}) => {
         animationEnabled: true,
         theme: "light2",
         title:{
-            text: "Volume Level"
+            text: "Volume Level",
+            fontSize: theme.chartTitleFontSize
         },
         axisY: {
             title: "LUFS",

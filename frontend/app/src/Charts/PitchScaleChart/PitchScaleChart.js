@@ -23,7 +23,8 @@ const PitchScaleChart = ({f0}) => {
         animationEnabled: true,
         theme: "light2",
         title:{
-            text: "Pitch Dynamism Scale"
+            text: "Pitch Dynamism Scale",
+            fontSize: theme.chartTitleFontSize
         },
         axisY: {
             title: "PDQ",

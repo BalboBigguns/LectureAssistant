@@ -61,7 +61,8 @@ const AverageRateChart = ({data, title, xLabel, yLabel, ...rest}) => {
 	    animationEnabled: true,
         theme: "light2",
         title: {
-            text: title
+            text: title,
+            fontSize: theme.chartTitleFontSize
         },
         data: [{				
             type: "line",
