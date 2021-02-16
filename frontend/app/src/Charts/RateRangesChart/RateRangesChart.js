@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import CanvasJSReact from '../CanvasJS/canvasjs.react';
-import ThemeContext from '../Contexts/Theme';
+import ThemeContext from '../../Contexts/Theme';
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-const RangeChart = ({rate}) => {
+const RateRangesChart = ({rate}) => {
     const rateAvg = Math.round(rate.total_wpm_average);
     const theme = useContext(ThemeContext);
 
@@ -56,4 +56,4 @@ const RangeChart = ({rate}) => {
     );
 };
 
-export default RangeChart;
+export default RateRangesChart;

@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useContext} from 'react';
 import CanvasJSReact from '../CanvasJS/canvasjs.react';
-import ThemeContext from '../Contexts/Theme';
+import ThemeContext from '../../Contexts/Theme';
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
@@ -19,7 +19,7 @@ const addLegendItem = (options, label, color) => {
     );
 };
 
-const LineChart = ({data, title, xLabel, yLabel, ...rest}) => {
+const AverageRateChart = ({data, title, xLabel, yLabel, ...rest}) => {
     const [xAxisData, setXAxisData] = useState([]);
     const theme = useContext(ThemeContext);
 
@@ -99,8 +99,9 @@ const LineChart = ({data, title, xLabel, yLabel, ...rest}) => {
                 },
                 {                
                     value: rest.total_wpm,
-                    label: `Average wpm: ${rest.total_wpm}`,
-                    labelPlacement:"inside",
+                    label: `Avg: ${rest.total_wpm}`,
+                    labelPlacement: "outside",
+                    labelBackgroundColor: "white",
                     color: getSecondaryColor(rest.total_wpm),
                     labelFontColor: getSecondaryColor(rest.total_wpm),
                     thickness: 2
@@ -134,4 +135,4 @@ const LineChart = ({data, title, xLabel, yLabel, ...rest}) => {
     );
 };
 
-export default LineChart;
+export default AverageRateChart;

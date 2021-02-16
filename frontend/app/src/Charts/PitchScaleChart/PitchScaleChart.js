@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import CanvasJSReact from '../CanvasJS/canvasjs.react';
-import ThemeContext from '../Contexts/Theme';
+import ThemeContext from '../../Contexts/Theme';
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-const ColumnChart = ({f0}) => {
+const PitchScaleChart = ({f0}) => {
     const theme = useContext(ThemeContext);
 
     const getSecondaryColor = (f0) => {
@@ -64,5 +64,5 @@ const ColumnChart = ({f0}) => {
     );
 };
 
-export default ColumnChart;
+export default PitchScaleChart;
 

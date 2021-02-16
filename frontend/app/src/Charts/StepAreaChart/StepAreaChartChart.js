@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useContext} from 'react';
 import CanvasJSReact from '../CanvasJS/canvasjs.react';
-import ThemeContext from '../Contexts/Theme';
+import ThemeContext from '../../Contexts/Theme';
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
