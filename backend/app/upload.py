@@ -25,7 +25,12 @@ def allowed_file(filename):
 @bp.route('/subscribe', methods=['POST', 'DELETE'])
 def subscribe():
     session_origin = request.remote_addr
-    parsed_body = json.loads(request.data.decode())
+    try:
+        parsed_body = json.loads(request.data.decode())
+    except:
+        logging.exception('Exception rised: ')
+        return {'error': 'Exception occured', 'exception': str(sys.exc_info()[1])}, 500
+        
     session_id = parsed_body.get('id')
     print(session_id)
     print(session_origin)
@@ -42,13 +47,14 @@ def subscribe():
 @bp.route('', methods=['POST'])
 def upload_file():
     print(request.files)
-    session_id = request.headers['Authorization']
-    session_origin = current_app.cache.get(session_id)
+    session_id = request.headers.get('Authorization')
+    if session_id:
+        session_origin = current_app.cache.get(session_id)
 
-    if session_origin != request.remote_addr:
-        print("Session origin is incorrect")
-        print(f"Session origin: {session_origin}, actual origin: {request.remote_addr}")
-        session_id = None
+        if session_origin != request.remote_addr:
+            print("Session origin is incorrect")
+            print(f"Session origin: {session_origin}, actual origin: {request.remote_addr}")
+            session_id = None
 
     if 'file' not in request.files:
         print('File part is missing')
@@ -80,7 +86,7 @@ def upload_file():
 
         transcription = speechToText.get_transcription(data, fs, session_id, log)
         rate_data = speechRate.process_transcription(transcription, log)
-        f0_data = f0.process_file(data, fs, 200, log)
+        f0_data = f0.process_file(data, fs, 10000, log)
         volume_data = volume.process_file(data, fs, log)
     except:
         logging.exception('Exception rised: ')

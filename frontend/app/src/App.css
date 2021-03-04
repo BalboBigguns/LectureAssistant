@@ -1,17 +1,21 @@
-.App {
-  margin: auto;
-  margin-top: 150px;
-  width: 90%;
-  display: flex;
-  flex-direction: column;
-  /* align-items: center; */
-
-  --color-theme-main: #4BC0C0;
-}
-
 hr {
   border: 1px solid #4BC0C050;
   width: 100%;
+}
+
+p {
+  font-size: 1.2em
+}
+
+.App {
+  margin: auto;
+  padding-top: 150px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 150px);
+
+  --color-theme-main: #4BC0C0;
 }
 
 .Section {
@@ -22,16 +26,6 @@ hr {
   margin: 48px 0px;
 }
 
-p {
-  font-size: 1.2em
+.Content {
+  flex-grow: 1;
 }
-
-/* .SideBySideWrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-}
-
-.SideBySideWrapper > * {
-  width: 40%;
-} */
