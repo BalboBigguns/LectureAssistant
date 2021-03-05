@@ -2,7 +2,7 @@
 **LIVE VIEW** :arrow_right: [Lecture Assistant live](http://ec2-35-156-46-170.eu-central-1.compute.amazonaws.com/) :arrow_left: **LIVE VIEW**
 ***
 
-<img align="right" width="150" height="150" style="top: -32px;position: relative;" src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/logo.png"/>
+<img align="right" width="150" height="150" style="top: -32px;position: relative;" src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/logo.png" alt="lecture assistant logo"/>
 
 # Welcome to Lecture Assistant!
 This project is a part of my engineering thesis :mortar_board:
@@ -35,19 +35,19 @@ There shouldn't be any need for that as I have [live view of the app](http://ec2
 
 ##### Frontend
 
-<img width=32 src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/react.svg" alt="architecture diagram" style="position:relative;top:10px"/> - React Interface
+<img width=32 src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/react.svg" alt="Reac log" style="position:relative;top:10px"/> - React Interface
 
-<img width=32 src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/webassembly.svg" alt="architect`ure diagram" style="position:relative;top:10px"/> - WebAssembly library for client side audio preprocessing
+<img width=32 src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/webassembly.svg" alt="Webassembly logo" style="position:relative;top:10px"/> - WebAssembly library for client side audio preprocessing
 
 ##### Backend
 
-<img width=32 src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/docker.svg" alt="architecture diagram" style="position:relative;top:10px"/> - Docker to ease deployment and dev/prod environments
+<img width=32 src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/docker.svg" alt="Docker logo" style="position:relative;top:10px"/> - Docker to ease deployment and dev/prod environments
 
-<img width=32 src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/flask.svg" alt="architecture diagram" style="position:relative;top:10px;background-color:white;"/> - Flask as a lightweight framework for a lightweight project
+<img width=32 src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/flask.svg" alt="Flask logo" style="position:relative;top:10px;background-color:white;"/> - Flask as a lightweight framework for a lightweight project
 
-<img width=32 src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/nginx.svg" alt="architecture diagram" style="position:relative;top:10px"/> - Nginx servering built React App
+<img width=32 src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/nginx.svg" alt="Nginx logo" style="position:relative;top:10px"/> - Nginx servering built React App
 
-<img width=32 src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/redis.svg" alt="architecture diagram" style="position:relative;top:10px"/> - Redis cache and message broker for custom sessions and server sent events
+<img width=32 src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/redis.svg" alt="Redis logo" style="position:relative;top:10px"/> - Redis cache and message broker for custom sessions and server sent events
 
 #### Architecture :construction::pencil2::pencil:
 
