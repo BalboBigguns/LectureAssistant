@@ -39,12 +39,11 @@ There shouldn't be any need for that as I have [live view of the app](http://ec2
 
 <img width=32 src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/webassembly.svg" alt="architect`ure diagram" style="position:relative;top:10px"/> - WebAssembly library for client side audio preprocessing
 
-
 ##### Backend
 
 <img width=32 src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/docker.svg" alt="architecture diagram" style="position:relative;top:10px"/> - Docker to ease deployment and dev/prod environments
 
-<img width=32 src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/flask.svg" alt="architecture diagram" style="position:relative;top:10px"/> - Flask as a lightweight framework for lightweight project
+<img width=32 src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/flask.svg" alt="architecture diagram" style="position:relative;top:10px;background-color:white;"/> - Flask as a lightweight framework for a lightweight project
 
 <img width=32 src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/nginx.svg" alt="architecture diagram" style="position:relative;top:10px"/> - Nginx servering built React App
 
@@ -55,6 +54,6 @@ There shouldn't be any need for that as I have [live view of the app](http://ec2
 Below I present the diagram with overview of different system parts and their interactions. The gist of it is dockerized backend deployed to the AWS cloud and React app on the frontend.
 
 <p align="center">
-    <img width="1000" height="750" src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/architecture_diagram.png" alt="architecture diagram"/>
+    <img width="1000" src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/architecture_diagram.png" alt="architecture diagram"/>
 </p>
 
