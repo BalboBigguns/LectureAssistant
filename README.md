@@ -9,11 +9,11 @@ This project is a part of my engineering thesis :mortar_board:
 
 
 #### Functionality :book::microphone::chart_with_upwards_trend:	
-I've created this web application, aiming to improve the quality of online learning and lectures in general. The app allows users to upload lecture recordings, extracting audio features from them and providing the graphical feedback on details connected with metrics associated with speech quality. 
+I've created this web application, aiming to improve the quality of online learning and lectures in general. The app allows users to upload lecture recordings, extracting audio features from them and providing graphical feedback on details connected with metrics associated with speech quality.
 
 #### How to run :floppy_disk::arrow_right::computer:
 
-There shouldn't be any need for that as I have [live view of the app](http://ec2-35-156-46-170.eu-central-1.compute.amazonaws.com/) available but if you want to fiddle around with code and run it on your own machine here is what you do:
+There shouldn't be any need for that as I have [a live view of the app](http://ec2-35-156-46-170.eu-central-1.compute.amazonaws.com/) available but if you want to fiddle around with code and run it on your own machine here is what you do:
 
 1. Make sure you have docker installed on your system:
     * docker >= 20.10.3 
@@ -24,7 +24,7 @@ There shouldn't be any need for that as I have [live view of the app](http://ec2
 
 3. In the top directory of the project run:
     ```docker-compose up --build```
-    It launches development environment with hot reloading and local API server.
+    It launches a development environment with hot reloading and a local API server.
     To spin up all containers in the background with production environment run:
     ```docker-compose -f docker-compose.prod.yml up --build --detach```
     Make sure to change the URL of API to the public address of your machine. You can find this setting in backend/Dockerfile.
@@ -51,7 +51,7 @@ There shouldn't be any need for that as I have [live view of the app](http://ec2
 
 #### Architecture :construction::pencil2::pencil:
 
-Below I present the diagram with overview of different system parts and their interactions. The gist of it is dockerized backend deployed to the AWS cloud and React app on the frontend.
+Below I present the diagram with an overview of different system parts and their interactions. The gist of it is dockerized backend deployed to the AWS cloud and React app on the frontend.
 
 <p align="center">
     <img width="1000" src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/architecture_diagram.png" alt="architecture diagram"/>
