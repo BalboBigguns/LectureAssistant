@@ -45,7 +45,7 @@ There shouldn't be any need for that as I have [a live view of the app](http://e
 
 <img width=32 src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/flask.svg" alt="Flask logo" style="position:relative;top:10px;background-color:white;"/> - Flask as a lightweight framework for a lightweight project
 
-<img width=32 src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/nginx.svg" alt="Nginx logo" style="position:relative;top:10px"/> - Nginx servering built React App
+<img width=32 src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/nginx.svg" alt="Nginx logo" style="position:relative;top:10px"/> - Nginx serving built React App
 
 <img width=32 src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/redis.svg" alt="Redis logo" style="position:relative;top:10px"/> - Redis cache and message broker for custom sessions and server sent events
 
