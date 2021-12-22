@@ -1,5 +1,5 @@
 
-**LIVE VIEW** :arrow_right: [Lecture Assistant live](http://ec2-35-156-46-170.eu-central-1.compute.amazonaws.com/) :arrow_left: **LIVE VIEW**
+**LIVE VIEW** :arrow_right: [Lecture Assistant live](https://lectureassistant.website/) :arrow_left: **LIVE VIEW**
 ***
 
 <img align="right" width="150" height="150" style="top: -32px;position: relative;" src="https://raw.githubusercontent.com/BalboBigguns/lecture-assistant/main/docs/logo.png" alt="lecture assistant logo"/>
@@ -13,7 +13,7 @@ I've created this web application, aiming to improve the quality of online learn
 
 #### How to run :floppy_disk::arrow_right::computer:
 
-There shouldn't be any need for that as I have [a live view of the app](http://ec2-35-156-46-170.eu-central-1.compute.amazonaws.com/) available but if you want to fiddle around with code and run it on your own machine here is what you do:
+There shouldn't be any need for that as I have [a live view of the app](https://lectureassistant.website/) available but if you want to fiddle around with code and run it on your own machine here is what you do:
 
 1. Make sure you have docker installed on your system:
     * docker >= 20.10.3 
